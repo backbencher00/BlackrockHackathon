@@ -31,35 +31,35 @@ cd BlackrockHackathon
 
 ```
 
-###### 2. check the java version
+##### 2. check the java version
 ```bash
 java -v
 ```
-###### 3. check the maven version
+##### 3. check the maven version
 ```bash
 mvn -v
  ```
-###### 4. if java version is different , check the installed JDK
+##### 4. if java version is different , check the installed JDK
 ```bash
 /usr/libexec/java_home -V
 ```
-###### 5. Temporarily Switch to Java 17
+##### 5. Temporarily Switch to Java 17
 ```bash
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 ```
 
-###### 6. Now verify again
+##### 6. Now verify again
 ```bash
 java -version\n
 mvn -v
 
 ```
-###### 7.Build project
+##### 7.Build project
 ```bash
 mvn clean install
 ```
 
-###### 8. Just compile
+##### 8. Just compile
 ```bash
 mvn clean compile
 ```
