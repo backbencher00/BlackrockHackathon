@@ -71,7 +71,7 @@ mvn spring-boot:run
 
 
 
-### 4. Docker setup
+## Docker setup
 ```bash
 docker pull singhsourabh074/blackrock-hackathon:latest
 ```
@@ -84,7 +84,8 @@ Docker Hub Link: https://hub.docker.com/r/singhsourabh074/blackrock-hackathon
 ```
 
 
-### 5. API endpoint - for testing
+## API endpoint - for testing
+1. parse transactions 
 ```bash
 1. Parse Transactions
 curl --location 'http://localhost:5477/blackrock/challenge/v1/transactions:parse' \
