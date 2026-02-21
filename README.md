@@ -35,35 +35,35 @@ cd BlackrockHackathon
 ```bash
 java -v
 ```
-###### 2. check the maven version
+###### 3. check the maven version
 ```bash
 mvn -v
  ```
-###### 2. if java version is different , check the installed JDK
+###### 4. if java version is different , check the installed JDK
 ```bash
 /usr/libexec/java_home -V
 ```
-###### 2. Temporarily Switch to Java 17
+###### 5. Temporarily Switch to Java 17
 ```bash
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 ```
 
-###### 2. Now verify again
+###### 6. Now verify again
 ```bash
 java -version\n
 mvn -v
 
 ```
-###### 2.Build project
+###### 7.Build project
 ```bash
 mvn clean install
 ```
 
-###### 2. Just compile
+###### 8. Just compile
 ```bash
 mvn clean compile
 ```
-###### 2. Run Spring Boot app
+###### 9. Run Spring Boot app
 
 ```bash
 mvn spring-boot:run
