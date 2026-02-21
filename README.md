@@ -24,37 +24,51 @@ Before running the project locally, ensure you have the following installed:
 
 ## 🛠️ Local Setup & Execution
 
-### 1. Clone the Repository
+##### 1. Clone the Repository
 ```bash
 git clone [https://github.com/backbencher00/BlackrockHackathon.git](https://github.com/backbencher00/BlackrockHackathon.git)
 cd BlackrockHackathon
 
 ```
 
-### 2. Build the Project
-#### For macOS or Linux:
+###### 2. check the java version
 ```bash
-./mvnw clean install
+java -v
 ```
-
-##### For Windows:
+###### 2. check the maven version
 ```bash
-mvnw.cmd clean install
-```
-
-
-
-### 3. Run the application
-
-#### For macOS or Linux:
+mvn -v
+ ```
+###### 2. if java version is different , check the installed JDK
 ```bash
-./mvnw spring-boot:run
+/usr/libexec/java_home -V
+```
+###### 2. Temporarily Switch to Java 17
+```bash
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 ```
 
-#### For Windows:
+###### 2. Now verify again
+```bash
+java -version\n
+mvn -v
+
 ```
-mvnw.cmd spring-boot:run
+###### 2.Build project
+```bash
+mvn clean install
 ```
+
+###### 2. Just compile
+```bash
+mvn clean compile
+```
+###### 2. Run Spring Boot app
+
+```bash
+mvn spring-boot:run
+```
+
 
 
 ### 4. Docker setup
