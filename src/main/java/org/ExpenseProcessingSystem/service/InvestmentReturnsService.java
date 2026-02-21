@@ -19,9 +19,66 @@ public class InvestmentReturnsService {
         return getReturns(request, InvestmentType.NPS);
     }
 
-    public NpsReturnsResponse getIndexReturns(ReturnsRequest request){
-        return getReturns(request, InvestmentType.INDEX);
+//    public NpsReturnsResponse getIndexReturns(ReturnsRequest request){
+//        return getReturns(request, InvestmentType.INDEX);
+//    }
+
+    public IndexReturnResponse getIndexReturns(ReturnsRequest request){
+        List<Transaction> validTransactions = filterValidTransaction(request);
+
+        BigDecimal totalCeiling = calculateTotalCeiling(validTransactions);
+        BigDecimal totalTransactionAmount = calculateTotalTransactionAmount(validTransactions);
+
+        List<SavingByDatesForIndex> savings =
+                calculateSavingsByKPeriodsForIndex(validTransactions, request);
+
+        return IndexReturnResponse.builder()
+                .totalCeiling(totalCeiling)
+                .totalTransactionAmount(totalTransactionAmount)
+                .savingsByDates(savings)
+                .build();
     }
+
+    private List<SavingByDatesForIndex> calculateSavingsByKPeriodsForIndex(
+            List<Transaction> validTransactions,
+            ReturnsRequest request
+    ) {
+
+        List<SavingByDatesForIndex> result = new ArrayList<>();
+
+        for (KPeriod k : request.getK()) {
+
+            BigDecimal investedAmount = validTransactions.stream()
+                    .filter(txn ->
+                            !txn.getDate().isBefore(k.getStart()) &&
+                                    !txn.getDate().isAfter(k.getEnd())
+                    )
+                    .map(Transaction::getRemanent)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            if (investedAmount.compareTo(BigDecimal.ZERO) == 0) {
+                continue;
+            }
+
+            BigDecimal realReturn = calculateIndexReturn(
+                    investedAmount,
+                    request.getAge(),
+                    request.getInflation()
+            );
+
+            result.add(
+                    SavingByDatesForIndex.builder()
+                            .start(k.getStart())
+                            .end(k.getEnd())
+                            .returns(realReturn.setScale(1, RoundingMode.HALF_UP))
+                            .build()
+            );
+        }
+
+        return result;
+    }
+
+
 
 
     public NpsReturnsResponse getReturns(ReturnsRequest request, InvestmentType type) {
@@ -55,19 +112,6 @@ public class InvestmentReturnsService {
         return totalTransactionAmount.setScale(1);
     }
 
-    public List<SavingsByDatesForNps> getSavingByDates(List<Transaction> validTransaction, List<KPeriod> kPeriods){
-        List<SavingsByDatesForNps> savingsByDates = new ArrayList<>();
-
-        /**
-         * TODO:
-         * 1. saperate the K periods
-         * 2. calculate the profix according to NPS or INDEX
-         * 3. adjust the inflation
-         * 4. return the answer
-         */
-
-        return savingsByDates;
-    }
 
     private List<SavingsByDatesForNps> calculateSavingsByKPeriods(List<Transaction> validTransaction, ReturnsRequest request,
                                                                   InvestmentType type) {
@@ -236,9 +280,6 @@ public class InvestmentReturnsService {
                 .build());
 
         List<Transaction> valid = validatorResponse.getValid();
-        for (Transaction transaction : valid){
-            System.out.println(transaction.toString());
-        }
 
         //q must run first because  p will be added on top of q
         service.applyQMoment(request.getQ(), valid);

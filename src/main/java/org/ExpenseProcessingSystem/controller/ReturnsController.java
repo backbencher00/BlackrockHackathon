@@ -1,6 +1,7 @@
 package org.ExpenseProcessingSystem.controller;
 
 import org.ExpenseProcessingSystem.requests.ReturnsRequest;
+import org.ExpenseProcessingSystem.response.IndexReturnResponse;
 import org.ExpenseProcessingSystem.response.NpsReturnsResponse;
 import org.ExpenseProcessingSystem.service.InvestmentReturnsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,7 @@ public class ReturnsController {
     }
 
     @PostMapping("/returns:index")
-    public NpsReturnsResponse getIndexReturns(@RequestBody ReturnsRequest request) {
-
+    public IndexReturnResponse getIndexReturns(@RequestBody ReturnsRequest request) {
         return investmentReturnsService.getIndexReturns(request);
     }
 }
