@@ -72,16 +72,32 @@ mvn spring-boot:run
 
 
 ## Docker setup
+1. start docker
 ```bash
-docker pull singhsourabh074/blackrock-hackathon:latest
+open -a Docker
 ```
 
+2. check docker is running
 ```bash
-docker run -p 5477:5477 singhsourabh074/blackrock-hackathon:latest
+docker info
 ```
+
+3. pull the docker image
 ```bash
-Docker Hub Link: https://hub.docker.com/r/singhsourabh074/blackrock-hackathon
+docker pull --platform linux/amd64 singhsourabh074/expense-processing-system:v1
 ```
+4. start the application on 5477
+```bash
+ docker run --platform linux/amd64 -p 5477:5477 singhsourabh074/expense-processing-system:v1
+```
+5. if port is not available kill the running port 5477 and again do step 4
+    
+```bash
+lsof -i :5477
+
+kill -9 PID
+```
+
 
 
 ## API endpoint - for testing
